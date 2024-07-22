@@ -27,6 +27,9 @@ build_script = ""
 if core == "earlephilhower":
     build_script = join(
         env.PioPlatform().get_package_dir("framework-arduinopico"), "tools", "platformio-build.py")
+elif core== "marlin":
+    build_script = join(
+        env.PioPlatform().get_package_dir("framework-marlin_rp2040"), "tools", "platformio-build.py")
 else:
     build_script = join(env.PioPlatform().get_dir(), "builder",
                         "frameworks", "arduino", "mbed-core", "arduino-core-mbed.py")

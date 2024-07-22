@@ -83,17 +83,19 @@ class RaspberrypiPlatform(PlatformBase):
                 self.packages["toolchain-rp2040-earlephilhower"]["optional"] = False
                 # Configure toolchain download link dynamically
                 self.packages["toolchain-rp2040-earlephilhower"]["version"] = RaspberrypiPlatform.earle_toolchain[sys_type]
-            elif build_core == "amken3d":
-                self.frameworks["arduino"]["package"] = "framework-arduinorp2040"
-                self.packages["framework-arduino-mbed"]["optional"] = True
-                self.packages.pop("toolchain-gccarmnoneeabi", None)
-                self.packages["toolchain-rp2040-earlephilhower"]["optional"] = False
-                # Configure toolchain download link dynamically
-                self.packages["toolchain-rp2040-earlephilhower"]["version"] = RaspberrypiPlatform.earle_toolchain[sys_type]    
             else:
-                sys.stderr.write(
-                    "Error! Unknown build.core value '%s'. Don't know which Arduino core package to use." % build_core)
-                env.Exit(1)
+                if "marlin" in frameworks:
+                    if build_core == "amken3d":
+                        self.frameworks["marlin"]["package"] = "framework-marlin_rp2040"
+                        self.packages["framework-arduino-mbed"]["optional"] = True
+                        self.packages.pop("toolchain-gccarmnoneeabi", None)
+                        self.packages["toolchain-rp2040-earlephilhower"]["optional"] = False
+                        # Configure toolchain download link dynamically
+                        self.packages["toolchain-rp2040-earlephilhower"]["version"] = RaspberrypiPlatform.earle_toolchain[sys_type]
+                    else:
+                        sys.stderr.write(
+                            "Error! Unknown build.core value '%s'. Don't know which Arduino core package to use." % build_core)
+                        env.Exit(1)
 
         # if we want to build a filesystem, we need the tools.
         if "buildfs" in targets:
