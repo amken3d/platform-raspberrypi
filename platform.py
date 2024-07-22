@@ -87,7 +87,7 @@ class RaspberrypiPlatform(PlatformBase):
                 if "marlin" in frameworks:
                     if build_core == "amken3d":
                         self.frameworks["marlin"]["package"] = "framework-marlin_rp2040"
-                        self.packages["framework-arduino-mbed"]["optional"] = True
+                        self.packages.pop("framework-arduino-mbed", None)
                         self.packages.pop("toolchain-gccarmnoneeabi", None)
                         self.packages["toolchain-rp2040-earlephilhower"]["optional"] = False
                         # Configure toolchain download link dynamically
