@@ -185,9 +185,10 @@ env.Append(
             ]), "Building $TARGET"),
             suffix=".hex"
         ),
-        BinToSignedBin=Builder(
+        BinToSignedBin = Builder(
             action=env.VerboseAction(" ".join([
                 '"$PYTHONEXE" "%s"' % join(
+                    platform.get_package_dir("framework-marlin-rp2040") or
                     platform.get_package_dir("framework-arduinopico") or "",
                     "tools", "signing.py"),
                 "--mode",
