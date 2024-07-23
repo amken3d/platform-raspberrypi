@@ -21,7 +21,7 @@ env = DefaultEnvironment()
 core = env.BoardConfig().get("build.core", "arduino")
 build_script = ""
 
-# select build script as either from the Earle Philhower core, the Marlin core or
+# select build script as either from the Earle Philhower core, the amkem3d core or
 # from the builder script contained in this platform.
 
 if core == "earlephilhower":
@@ -29,7 +29,7 @@ if core == "earlephilhower":
         env.PioPlatform().get_package_dir("framework-arduinopico"), "tools", "platformio-build.py")
 elif core == "amken3d":
     build_script = join(
-        env.PioPlatform().get_package_dir("framework-marlin_rp2040"), "tools", "platformio-build.py")
+        env.PioPlatform().get_package_dir("framework-marlin-rp2040"), "tools", "platformio-build.py")
 else:
     build_script = join(env.PioPlatform().get_dir(), "builder",
                         "frameworks", "arduino", "mbed-core", "arduino-core-mbed.py")
