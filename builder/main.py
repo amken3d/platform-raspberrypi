@@ -225,20 +225,22 @@ env.Append(
         )
     )
 )
-
-is_arduino_pico_build = env.BoardConfig().get("build.core", "arduino") == "earlephilhower" and "arduino" in env.get("PIOFRAMEWORK")
+is_arduino_pico_build = env.BoardConfig().get("build.core", "arduino") in ["earlephilhower","amken3d"] and "arduino" in env.get(
+    "PIOFRAMEWORK")
 if is_arduino_pico_build:
     pubkey = join(env.subst("$PROJECT_SRC_DIR"), "public.key")
     if isfile(pubkey):
-        header_file =  join(env.subst("$BUILD_DIR"), "core", "Updater_Signing.h")
+        header_file = join(env.subst("$BUILD_DIR"), "core", "Updater_Signing.h")
         env.Prepend(CCFLAGS=['-I"%s"' % join("$BUILD_DIR", "core")])
         env.Execute(" ".join([
-                '"$PYTHONEXE" "%s"' % join(
-                    platform.get_package_dir("framework-arduinopico"), "tools", "signing.py"),
-                "--mode", "header",
-                "--publickey", '"%s"' % join("$PROJECT_SRC_DIR", "public.key"),
-                "--out", '"%s"' % join("$BUILD_DIR", "core", "Updater_Signing.h")
+            '"$PYTHONEXE" "%s"' % join(
+                platform.get_package_dir("framework-marlin-rp2040") or
+                platform.get_package_dir("framework-arduinopico") or "", "tools", "signing.py"),
+            "--mode", "header",
+            "--publickey", '"%s"' % join("$PROJECT_SRC_DIR", "public.key"),
+            "--out", '"%s"' % join("$BUILD_DIR", "core", "Updater_Signing.h")
         ]))
+
 
 #
 # Target: Build executable and linkable firmware
